@@ -3,6 +3,8 @@
 This repository contains a small application that takes the [HOMUS](http://grfia.dlsi.ua.es/homus/) dataset and generates images
 that can be used in Optical Music Recognition tasks.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/6uk2q7kgosm5vr3h?svg=true)](https://ci.appveyor.com/project/apacha/homusimagegenerator)
+
 # Building the application
 This application is a C#/Console application that requires Visual Studio to build.
 
