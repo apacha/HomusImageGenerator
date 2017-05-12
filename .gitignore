@@ -204,3 +204,4 @@ FakesAssemblies/
 # Xamarin Components (will be restored like nuget packages)
 Components
 /HOMUS.zip
+/HOMUS/
