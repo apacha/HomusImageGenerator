@@ -90,6 +90,39 @@ namespace HomusImageGenerator
 
                 return new Size(width, height);
             }
+            
+            public Size DrawIntoBitmap(string exportFileName, int strokeThickness, int margin, int destinationWidth, int destinationHeight)
+            {
+                var width = Dimensions.Width + 2*margin;
+                var height = Dimensions.Height + 2*margin;
+                var widthOffsetForCentering = (destinationWidth - width) / 2;
+                var heightOffsetForCentering = (destinationHeight - height) / 2;
+                var offset = new Point(Dimensions.Location.X - margin - widthOffsetForCentering, Dimensions.Location.Y - margin - heightOffsetForCentering);
+                
+                using (var bmp = new Bitmap(destinationWidth, destinationHeight))
+                {
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        g.FillRectangle(new SolidBrush(Color.White), 0, 0, destinationWidth, destinationHeight);
+                        foreach (var stroke in Strokes)
+                        {
+                            for (int i = 0; i < stroke.Count - 1; i++)
+                            {
+                                var startPoint = SubtractOffset(stroke[i], offset);
+                                var endPoint = SubtractOffset(stroke[i + 1], offset);
+                                g.DrawLine(new Pen(Color.Black, strokeThickness), startPoint, endPoint);
+                            }
+                        }
+
+                        bmp.Save(exportFileName, ImageFormat.Png);
+                    }                    
+                }
+
+                return new Size(width, height);
+            }
+
+            
+
 
             private Point SubtractOffset(Point a, Point b)
             {

@@ -48,7 +48,7 @@ namespace HomusImageGenerator
 
                     for (int i = 3; i <= 3; i++)
                     {
-                        var dimensions = symbol.DrawIntoBitmap(Path.Combine(targetDirectory, $"{fileName}_{i}.png"), i);
+                        var dimensions = symbol.DrawIntoBitmap(Path.Combine(targetDirectory, $"{fileName}_{i}.png"), i, 0, 128, 224);
                         builder.AppendLine($"{dimensions.Width};{dimensions.Height}");
                     }                    
                 }                
