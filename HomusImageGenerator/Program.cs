@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Text;
 
 namespace HomusImageGenerator
 {
@@ -30,7 +31,8 @@ namespace HomusImageGenerator
                 var symbolFiles = GetPathToAllSymbolFiles(databaseDirectory);
                 var baseDirectoryForExport = Path.GetFullPath(Path.Combine("..", "..", "..", "HOMUS", "Export"));
                 Console.WriteLine($"Processing {symbolFiles.Count} symbols...");
-
+                StringBuilder builder = new StringBuilder();
+                
                 foreach (var symbolFile in symbolFiles)
                 {
                     var content = File.ReadAllText(symbolFile);
@@ -44,11 +46,14 @@ namespace HomusImageGenerator
 
                     var fileName = Path.GetFileNameWithoutExtension(symbolFile);
 
-                    for (int i = 1; i <= 3; i++)
+                    for (int i = 3; i <= 3; i++)
                     {
-                        symbol.DrawIntoBitmap(Path.Combine(targetDirectory, $"{fileName}_{i}.png"), i);
+                        var dimensions = symbol.DrawIntoBitmap(Path.Combine(targetDirectory, $"{fileName}_{i}.png"), i);
+                        builder.AppendLine($"{dimensions.Width};{dimensions.Height}");
                     }                    
                 }                
+
+                File.WriteAllText("dimensions.txt", builder.ToString());
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Text;
 
 namespace HomusImageGenerator
 {
@@ -56,12 +57,18 @@ namespace HomusImageGenerator
                 return newSymbol;
             }
 
-            public void DrawIntoBitmap(string exportFileName, int strokeThickness)
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="exportFileName"></param>
+            /// <param name="strokeThickness"></param>
+            /// <param name="margin">Additional margin, especially useful, if strokeThickness is bigger than one, to prevent drawing outside of image</param>
+            public Size DrawIntoBitmap(string exportFileName, int strokeThickness, int margin = 2)
             {
-                var height = Dimensions.Height;
-                var width = Dimensions.Width;
-                var offset = Dimensions.Location;
-
+                var width = Dimensions.Width + 2*margin;
+                var height = Dimensions.Height + 2*margin;
+                var offset = new Point(Dimensions.Location.X - margin, Dimensions.Location.Y - margin);
+                
                 using (var bmp = new Bitmap(width, height))
                 {
                     using (Graphics g = Graphics.FromImage(bmp))
@@ -78,8 +85,10 @@ namespace HomusImageGenerator
                         }
 
                         bmp.Save(exportFileName, ImageFormat.Png);
-                    }
+                    }                    
                 }
+
+                return new Size(width, height);
             }
 
             private Point SubtractOffset(Point a, Point b)
